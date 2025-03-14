@@ -1,5 +1,5 @@
 from botcity.web import WebBot, Browser, By
-from botcity.web.util import element_as_select
+# from botcity.web.util import element_as_select
 
 from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
@@ -7,10 +7,7 @@ def botLogin(bot):
     username = "botCitacaoINSS"
     pwd = "admin123"
 
-    bot.wait(2000)
-
-    # open the frameset
-    # frameset = bot.find_element(selector='frameSetTeste', by=By.ID)
+    bot.wait(1000)
 
     # Search the frame inside of frameset
     frame = bot.find_element(selector='mainFrame', by=By.ID)
@@ -20,15 +17,16 @@ def botLogin(bot):
     # element.click()
         
     bot.find_element('//*[@id="login"]', By.XPATH).send_keys(username)
-    bot.wait(2000)
+    bot.wait(1000)
 
     bot.find_element('//*[@id="senha"]', By.XPATH).send_keys(pwd)
-    bot.wait(2000)
+    bot.wait(1000)
 
     bot.find_element('//*[@id="btEntrar"]', By.XPATH).click()
-    bot.wait(2000)
+    bot.wait(1000)
 
-    bot.leave_iframe()
+    bot.leave_iframe() # leave to frame
+    bot.wait(1000)
 
 def selectProcess(bot):
     # Search the frame inside of frameset
@@ -41,9 +39,9 @@ def selectProcess(bot):
     # //*[@id="listaAreaAtuacaovara"]/div/ul/li[3]/a (select trird item)
 
     bot.find_element('//*[@id="listaAreaAtuacaovara"]/div/ul/li[1]/a', By.XPATH).click() # test case
-    bot.wait(2000)
-
     bot.leave_iframe()
+    
+    bot.wait(1000)
 
 def searchAdvancedButton(bot):
     # Search the frame inside of frameset
@@ -51,56 +49,38 @@ def searchAdvancedButton(bot):
     bot.enter_iframe(frame)
 
     bot.find_element('//*[@id="Stm0p0i1eTX"]', By.XPATH).click()
-    bot.wait(2000)
+    bot.wait(1000)
 
     bot.find_element('//*[@id="Stm0p1i8TRR"]', By.XPATH).click()
-    bot.wait(2000)
+    bot.wait(1000)
 
     bot.find_element('//*[@id="Stm0p3i1TRR"]', By.XPATH).click()
-    bot.wait(2000)
+    bot.wait(1000)
 
     bot.leave_iframe()
+    bot.wait(1000)
 
 def handleForms(bot):
     # Search the frame inside of frameset
-    iframe = bot.find_element('frameSetTeste', by=By.CLASS_NAME)
-    bot.enter_iframe(iframe)
+    # iframe = bot.find_element('frameSetTeste', by=By.CLASS_NAME)
+    # bot.enter_iframe(iframe)
 
-    frame = bot.find_element('mainFrame', by=By.CLASS_NAME)
-    bot.enter_iframe(frame)
+    # frame = bot.find_element('mainFrame', by=By.CLASS_NAME)
+    # bot.enter_iframe(frame)
 
-    # Obtem o elemento.
-    # bot.find_element('codVara', by=By.ID).click()
-    elemento_select = bot.find_element(selector='codVara', by=By.CLASS_NAME)
-
-    # Converte o elemento em um elemento 'selecionável'.
-    elemento_select = element_as_select(elemento_select)
-
-    # Seleciona opção por índice.
-    elemento_select.select_by_index(index=1)
-
-    # bot.find_element('codVara', by=By.ID).click()
-    # bot.find_element('//*[@id="codVara"]/option[2]', By.XPATH).click()
-    # bot.wait(2000)
-
-
-    # label = bot.find_element('idLocalizador', by=By.ID)
-    # selector = element_as_select(label)
-    # selector.click()
-    # selector.select_by_index(index=22)
-
-    # while len(bot.find_elements('idLocalizador', by=By.ID)) < 1:
-    #     bot.wait(2000)
-
-    bot.find_element('idLocalizador', by=By.ID).click()
-    bot.find_element('//*[@id="idLocalizador"]/optgroup/option[22]').click()
-    bot.wait(2000)
-
-    bot.find_element('//*[@id="pesquisar"]', By.XPATH).click()
-    bot.wait(2000)
-
-    bot.leave_iframe() # leave to frame
-    bot.leave_iframe() # leave to iframe
+    # Searching for element 'first_select '
+    if not bot.find("first_select", matching=0.97, waiting_time=10000):
+        not_found("first_select")
+    bot.click_relative(453, 15)
+    
+    bot.wait(1000)
+    
+    # Searching for element 'choose_unit '
+    if not bot.find("choose_unit", matching=0.97, waiting_time=10000):
+        not_found("choose_unit")
+    bot.click_relative(241, 41)
+    
+    bot.wait(1000)
 
 # --- #
 def main():
@@ -117,6 +97,7 @@ def main():
 
     # Opens the BotCity website.
     bot.browse("http://10.47.76.126:8082/projudi/")
+    bot.maximize_window()
 
     botLogin(bot=bot)
     selectProcess(bot=bot)
