@@ -62,11 +62,11 @@ def searchAdvancedButton(bot):
 
 def handleForms(bot):
     # Search the frame inside of frameset
-    # iframe = bot.find_element('frameSetTeste', by=By.CLASS_NAME)
-    # bot.enter_iframe(iframe)
+    iframe = bot.find_element('mainFrame', by=By.CLASS_NAME)
+    bot.enter_iframe(iframe)
 
-    # frame = bot.find_element('mainFrame', by=By.CLASS_NAME)
-    # bot.enter_iframe(frame)
+    frame = bot.find_element('userMainFrame', by=By.CLASS_NAME)
+    bot.enter_iframe(frame)
 
     # Searching for element 'first_select '
     if not bot.find("first_select", matching=0.97, waiting_time=10000):
