@@ -1,6 +1,5 @@
-git init
 git add -A
-git commit -m "fix: second frame (68 line)"
+git commit -m "fixed: handleForms() worked!"
 git push -u origin main
-
+git status
 # problem: bot not find <select> element"
