@@ -79,7 +79,9 @@ def handleForms(bot):
     second_select = element_as_select(second_select)
 
     # Select the option by index.
-    second_select.select_by_index(index=23)
+    second_select.select_by_index(index=22)
+    # index 22 -> "Robo - Aguardando Transito em Julgado"
+    # index 23 -> "Robo - Citacao Online"
     
     bot.wait(1000)
 
@@ -107,6 +109,28 @@ def copyProcessID(bot):
 
     bot.find_element('//*[@id="pesquisar"]', By.XPATH).click()
     bot.wait(2000)
+
+    bot.leave_iframe()
+    bot.leave_iframe()
+
+def copyAllProcessIDs(bot): # special function #
+    # Search the frame inside of frameset
+    frame = bot.find_element('//*[@id="mainFrame"]', by=By.XPATH)
+    bot.enter_iframe(frame)
+
+    iframe = bot.find_element('/html/body/div[2]/iframe', by=By.XPATH)
+    bot.enter_iframe(iframe)
+
+    bot.wait(5000)
+    
+    # Caught all items inside <em> tags inside of <td> inside of <tr>
+    elements = bot.find_elements("em")
+
+    # Insert all IDs in a list
+    ids = [element.text for element in elements]
+
+    # Show the all IDs
+    print(ids)
 
     bot.leave_iframe()
     bot.leave_iframe()
@@ -236,12 +260,13 @@ def main():
     selectProcess(bot=bot_web)
     searchAdvancedButton(bot=bot_web)
     handleForms(bot=bot_web)
+    copyAllProcessIDs(bot=bot_web)
     copyProcessID(bot=bot_web)
-    lastMovement(bot=bot_web)
-    moveProcess(bot=bot_web)
-    clickCitations(bot=bot_web)
-    typeDocument(bot=bot_web)
-    issueCitation(bot=bot_web)
+    # lastMovement(bot=bot_web)
+    # moveProcess(bot=bot_web)
+    # clickCitations(bot=bot_web)
+    # typeDocument(bot=bot_web)
+    # issueCitation(bot=bot_web)
 
     bot_web.wait(2000)
     bot_web.stop_browser() # Finished process
