@@ -79,7 +79,7 @@ def handleForms(bot):
     second_select = element_as_select(second_select)
 
     # Select the option by index.
-    second_select.select_by_index(index=22)
+    second_select.select_by_index(index=23)
     
     bot.wait(1000)
 
@@ -100,10 +100,10 @@ def copyProcessID(bot):
     processID = bot.find_element("em").text
 
     bot.find_element('//*[@id="processoBusca"]', By.XPATH).click()
-    bot.wait(1000)
+    bot.wait(2000)
 
     bot.find_element('//*[@id="numeroProcesso"]', By.XPATH).send_keys(processID)
-    bot.wait(1000)
+    bot.wait(2000)
 
     bot.find_element('//*[@id="pesquisar"]', By.XPATH).click()
     bot.wait(2000)
@@ -124,13 +124,102 @@ def lastMovement(bot):
     bot.find_element('//*[@id="LNKmov1Grau,SERVIDOR,,,,"]', By.XPATH).click()
     bot.wait(2000)
 
-def searchProcessByID(bot):
+    bot.find_element('//*[@id="movimentarButton"]', By.XPATH).click()
+
+    bot.leave_iframe()
+    bot.leave_iframe()
+
+def moveProcess(bot):
     # Search the frame inside of frameset
     frame = bot.find_element('//*[@id="mainFrame"]', by=By.XPATH)
     bot.enter_iframe(frame)
 
     iframe = bot.find_element('/html/body/div[2]/iframe', by=By.XPATH)
     bot.enter_iframe(iframe)
+
+    bot.find_element('//*[@id="movimentarProcessoForm"]/fieldset/table[2]/tbody/tr/td[1]/a[3]', By.XPATH).click() # citar partes
+    bot.wait(1000)
+
+    iframe2 = bot.find_element('/html/body/div[2]/table[2]/tbody/tr/td[2]/iframe', by=By.XPATH) # iframe from new forms
+    bot.enter_iframe(iframe2) # //iframe[contains(@name,"window")]
+    bot.wait(1000)
+
+    checkbox = bot.find_element(selector='//*[@id="citacaoForm"]/fieldset/table[1]/tbody/tr[8]/td/h4/input', by=By.XPATH)
+    checkbox.click()
+
+    bot.wait(2000)
+
+    number_days = 30
+    bot.find_element('//*[@id="prazoPartesPassivas"]', By.XPATH).send_keys(number_days)
+    bot.wait(2000)
+
+    bot.find_element('//*[@id="citarButton"]', By.XPATH).click()
+    bot.wait(1000)
+
+    bot.leave_iframe() # exit iframe2
+    bot.leave_iframe() # exit iframe
+    bot.leave_iframe() # exit iframe
+
+def clickCitations(bot):
+    # Search the frame inside of frameset
+    frame = bot.find_element('//*[@id="mainFrame"]', by=By.XPATH)
+    bot.enter_iframe(frame)
+
+    iframe = bot.find_element('/html/body/div[2]/iframe', by=By.XPATH)
+    bot.enter_iframe(iframe)
+
+    bot.find_element('/html/body/div[1]/div[2]/form/fieldset/table[2]/tbody/tr/td[5]/fieldset[1]/table/tbody/tr[2]/td[2]/table/tbody/tr/td/a', by=By.XPATH).click()
+    bot.wait(2000)
+
+    bot.find_element('//*[@id="expedirCitacaoForm"]/table[2]/tbody/tr/td[10]/a', by=By.XPATH).click()
+    bot.wait(2000)
+
+    model = "CITAÇÃO ONLINE INSS"
+    bot.find_element('//*[@id="descricaoModeloDocumento"]', by=By.XPATH).send_keys(model)
+    bot.wait(2000)
+    bot.enter()
+
+    bot.find_element('//*[@id="digitarButton"]', by=By.XPATH).click()
+
+    bot.leave_iframe() # exit iframe
+    bot.leave_iframe() # exit frame
+
+def typeDocument(bot):
+    # Search the frame inside of frameset
+    frame = bot.find_element('//*[@id="mainFrame"]', by=By.XPATH)
+    bot.enter_iframe(frame)
+
+    iframe = bot.find_element('/html/body/div[2]/iframe', by=By.XPATH)
+    bot.enter_iframe(iframe)
+
+    bot.find_element('//*[@id="submitButton"]', by=By.XPATH).click()
+    bot.wait(2000)
+
+    bot.find_element('//*[@id="submitButton"]', by=By.XPATH).click()
+    bot.wait(2000)
+    
+    bot.find_element('//*[@id="finishButton"]', by=By.XPATH).click()
+    bot.wait(2000)
+
+    bot.leave_iframe() # exit iframe
+    bot.leave_iframe() # exit frame
+
+def issueCitation(bot):
+    # Search the frame inside of frameset
+    frame = bot.find_element('//*[@id="mainFrame"]', by=By.XPATH)
+    bot.enter_iframe(frame)
+
+    iframe = bot.find_element('/html/body/div[2]/iframe', by=By.XPATH)
+    bot.enter_iframe(iframe)
+
+    password = "admin123"
+    bot.find_element('//*[@id="senhaCertificado"]', by=By.XPATH).send_keys(password)
+
+    bot.find_element('//*[@id="assinarButton"]', by=By.XPATH).click()
+    bot.wait(2000)
+
+    bot.leave_iframe() # exit iframe
+    bot.leave_iframe() # exit frame
 
 # --- Principal Function --- #
 def main():
@@ -149,6 +238,10 @@ def main():
     handleForms(bot=bot_web)
     copyProcessID(bot=bot_web)
     lastMovement(bot=bot_web)
+    moveProcess(bot=bot_web)
+    clickCitations(bot=bot_web)
+    typeDocument(bot=bot_web)
+    issueCitation(bot=bot_web)
 
     bot_web.wait(2000)
     bot_web.stop_browser() # Finished process
