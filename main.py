@@ -61,9 +61,6 @@ def handleForms(bot):
     iframe = bot.find_element('/html/body/div[2]/iframe', by=By.XPATH)
     bot.enter_iframe(iframe)
 
-    # cnpj = "000.0000.000-00"
-    # bot.find_element(selector='//*[@id="cpfCnpj"]', by=By.XPATH).send_keys(cnpj)
-
     # Searching for element 'first_select'
     first_select = bot.find_element(selector='codVara', by=By.ID)
 
@@ -92,31 +89,69 @@ def handleForms(bot):
     bot.leave_iframe()
     bot.leave_iframe()
 
-# --- #
+def copyProcessID(bot):
+    # Search the frame inside of frameset
+    frame = bot.find_element('//*[@id="mainFrame"]', by=By.XPATH)
+    bot.enter_iframe(frame)
+
+    iframe = bot.find_element('/html/body/div[2]/iframe', by=By.XPATH)
+    bot.enter_iframe(iframe)
+
+    processID = bot.find_element("em").text
+
+    bot.find_element('//*[@id="processoBusca"]', By.XPATH).click()
+    bot.wait(1000)
+
+    bot.find_element('//*[@id="numeroProcesso"]', By.XPATH).send_keys(processID)
+    bot.wait(1000)
+
+    bot.find_element('//*[@id="pesquisar"]', By.XPATH).click()
+    bot.wait(2000)
+
+    bot.leave_iframe()
+    bot.leave_iframe()
+
+def lastMovement(bot):
+    # Search the frame inside of frameset
+    frame = bot.find_element('//*[@id="mainFrame"]', by=By.XPATH)
+    bot.enter_iframe(frame)
+
+    iframe = bot.find_element('/html/body/div[2]/iframe', by=By.XPATH)
+    bot.enter_iframe(iframe)
+
+    bot.scroll_down(clicks=4)
+
+    bot.find_element('//*[@id="LNKmov1Grau,SERVIDOR,,,,"]', By.XPATH).click()
+    bot.wait(2000)
+
+def searchProcessByID(bot):
+    # Search the frame inside of frameset
+    frame = bot.find_element('//*[@id="mainFrame"]', by=By.XPATH)
+    bot.enter_iframe(frame)
+
+    iframe = bot.find_element('/html/body/div[2]/iframe', by=By.XPATH)
+    bot.enter_iframe(iframe)
+
+# --- Principal Function --- #
 def main():
-    bot = WebBot()
-    
-    # Configure whether or not to run on headless mode
-    bot.headless = False
+    bot_web = WebBot()
+    bot_web.headless = False
 
-    # Uncomment to change the default Browser to Firefox
-    bot.browser = Browser.EDGE
+    bot_web.browser = Browser.EDGE
+    bot_web.driver_path = EdgeChromiumDriverManager().install()
 
-    # Uncomment to set the WebDriver path
-    bot.driver_path = EdgeChromiumDriverManager().install()
+    bot_web.browse("http://10.47.76.126:8082/projudi/")
+    bot_web.maximize_window()
 
-    # Opens the BotCity website.
-    bot.browse("http://10.47.76.126:8082/projudi/")
-    bot.maximize_window()
+    botLogin(bot=bot_web)
+    selectProcess(bot=bot_web)
+    searchAdvancedButton(bot=bot_web)
+    handleForms(bot=bot_web)
+    copyProcessID(bot=bot_web)
+    lastMovement(bot=bot_web)
 
-    botLogin(bot=bot)
-    selectProcess(bot=bot)
-    searchAdvancedButton(bot=bot)
-    handleForms(bot=bot)
-
-    # Wait 3 seconds before closing
-    bot.wait(3000)
-    bot.stop_browser()
+    bot_web.wait(2000)
+    bot_web.stop_browser() # Finished process
 
 def not_found(label):
     print(f"Element not found: {label}")
