@@ -1,5 +1,5 @@
 git add -A
-git commit -m "edit: main.py | rename: copyNameWorkspace"
+git commit -m "next issue: pagination button (searchProcessByID)"
 git push -u origin main
 git status
 
