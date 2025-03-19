@@ -1,6 +1,6 @@
 from botcity.web import By
 
-def changeWorkspace(bot):
+def copyNameWorkspace(bot):
     # Search the frame inside of frameset
     frame = bot.find_element('//*[@id="mainFrame"]', by=By.XPATH)
     bot.enter_iframe(frame)

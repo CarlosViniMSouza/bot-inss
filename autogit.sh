@@ -1,5 +1,5 @@
 git add -A
-git commit -m "edit: main.py | add: changeWorkspace"
+git commit -m "edit: main.py | rename: copyNameWorkspace"
 git push -u origin main
 git status
 

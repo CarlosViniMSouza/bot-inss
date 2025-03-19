@@ -31,7 +31,9 @@ def handleForms(bot):
     second_select = element_as_select(second_select)
 
     # Select the option by index.
-    second_select.select_by_index(index=22)
+    # ROBÔ - Aguardando Trânsito em Julgado
+    second_select.select_by_value("ROBÔ - Aguardando Trânsito em Julgado")
+    # second_select.select_by_index(index=22)
     # index 22 -> "Robo - Aguardando Transito em Julgado"
     # index 23 -> "Robo - Citacao Online"
 
