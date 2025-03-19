@@ -5,13 +5,14 @@ from src.botLogin import botLogin
 from src.selectProcess import selectProcess
 from src.searchAdvancedButton import searchAdvancedButton
 from src.handleForms import handleForms
-from src.copyProcessID import copyProcessID
-from src.lastMovement import lastMovement
-from src.moveProcess import moveProcess
-from src.clickCitations import clickCitations
-from src.typeDocument import typeDocument
-from src.issueCitations import issueCitation
-from src.searchProcessByID import searchProcessByID
+# from src.copyProcessID import copyProcessID
+# from src.lastMovement import lastMovement
+ #from src.moveProcess import moveProcess
+# from src.clickCitations import clickCitations
+# from src.typeDocument import typeDocument
+# from src.issueCitations import issueCitation
+# from src.searchProcessByID import searchProcessByID
+from src.changeWorkspace import changeWorkspace
 
 # --- Principal Function --- #
 def main():
@@ -28,7 +29,9 @@ def main():
     selectProcess(bot=bot_web)
     searchAdvancedButton(bot=bot_web)
     handleForms(bot=bot_web)
+    changeWorkspace(bot=bot_web)
 
+    """
     listIDs = copyProcessID(bot=bot_web)
     
     while len(listIDs) > 0:
@@ -40,6 +43,7 @@ def main():
         issueCitation(bot=bot_web)
 
         listIDs.pop(0)
+    """
 
     print("Automação Encerrada!")
 
