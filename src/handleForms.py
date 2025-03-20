@@ -31,7 +31,8 @@ def handleForms(bot):
     second_select = element_as_select(second_select)
 
     # Select the option by index.
-    second_select.select_by_index(index=22)
+    #second_select.select_by_index(value="Sem Localizador Atribuído")
+    second_select.select_by_visible_text(text="Sem Localizador Atribuído")
     # index 22 -> "Robo - Aguardando Transito em Julgado"
     # index 23 -> "Robo - Citacao Online"
 
